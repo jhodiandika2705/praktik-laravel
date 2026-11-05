@@ -1,4 +1,3 @@
-
 @extends('layouts.app')
 
 @section('title', 'Halaman Surat Masuk')
@@ -13,9 +12,12 @@
         </p>
     @endif
 
-    <a href="{{ route('surat-masuk.create') }}">
-        <button type="button">Tambah Surat</button>
-    </a>
+    {{-- Tombol Tambah hanya untuk Petugas --}}
+    @can('manage-letters')
+        <a href="{{ route('surat-masuk.create') }}">
+            <button type="button">Tambah Surat</button>
+        </a>
+    @endcan
 
     <br><br>
 
@@ -39,34 +41,34 @@
                     <td>{{ $surat->tanggal }}</td>
                     <td>{{ $surat->pengirim }}</td>
                     <td>{{ $surat->perihal }}</td>
- 
-                    
+
                     <td>
-                            <a href="{{ route('surat-masuk.show', $surat->id) }}">
-                            
-                                Detail
-                            </a>
+                        {{-- Detail bisa diakses Petugas dan Pembaca --}}
+                        <a href="{{ route('surat-masuk.show', $surat->id) }}">
+                            Detail
+                        </a>
 
-                        |
-
+                        {{-- Edit dan Hapus hanya untuk Petugas --}}
+                        @can('manage-letters')
+                            |
                             <a href="{{ route('surat-masuk.edit', $surat->id) }}">
-                                    Edit
+                                Edit
                             </a>
 
-                        |
+                            |
 
-            <form action="{{ route('surat-masuk.destroy', $surat->id) }}"
-                method="POST"
-                style="display: inline;"
-                onsubmit="return confirm('Apakah Anda yakin ingin menghapus surat masuk ini?')">
+                            <form action="{{ route('surat-masuk.destroy', $surat->id) }}"
+                                  method="POST"
+                                  style="display: inline;"
+                                  onsubmit="return confirm('Apakah Anda yakin ingin menghapus surat masuk ini?')">
 
-                @csrf
-                @method('DELETE')
+                                @csrf
+                                @method('DELETE')
 
-                <button type="submit">Hapus</button>
-            </form>
-        </td>
-
+                                <button type="submit">Hapus</button>
+                            </form>
+                        @endcan
+                    </td>
                 </tr>
             @empty
                 <tr>
