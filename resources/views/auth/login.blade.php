@@ -1,136 +1,162 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - SIM Surat</title>
+    <title>Login - Sistem Informasi Surat</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-
-        body {
-            margin: 0;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #f1f5f9;
-        }
-
-        .login-container {
-            width: 100%;
-            max-width: 400px;
-            padding: 30px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 8px;
-            color: #1e293b;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #64748b;
-            margin-bottom: 25px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 7px;
-            font-weight: bold;
-            color: #334155;
-        }
-
-        input {
-            width: 100%;
-            padding: 11px;
-            margin-bottom: 18px;
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
-        }
-
-        button {
-            width: 100%;
-            padding: 12px;
-            background: #2563eb;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        button:hover {
-            background: #1d4ed8;
-        }
-
-        .message {
-            padding: 10px;
-            margin-bottom: 15px;
-            border-radius: 6px;
-            font-size: 14px;
-        }
-
-        .error {
-            background: #fee2e2;
-            color: #b91c1c;
-        }
-
-        .success {
-            background: #dcfce7;
-            color: #166534;
-        }
-    </style>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body>
 
-    <div class="login-container">
-        <h2>SIM Surat</h2>
-        <p class="subtitle">Silakan login untuk melanjutkan</p>
+<body class="min-h-screen bg-slate-100 font-sans">
 
-        @if (session('success'))
-            <div class="message success">
-                {{ session('success') }}
+    <div class="flex min-h-screen">
+
+        {{-- PANEL IDENTITAS APLIKASI --}}
+        <div class="relative hidden w-1/2 flex-col justify-between overflow-hidden bg-slate-900 p-12 text-white lg:flex">
+
+            <div class="absolute -right-32 -top-32 h-96 w-96 rounded-full bg-blue-600/20 blur-3xl"></div>
+
+            <div class="relative z-10">
+                <div class="mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600 text-2xl font-bold">
+                    S
+                </div>
+
+                <h1 class="text-2xl font-bold">
+                    Sistem Informasi Surat
+                </h1>
+
+                <p class="mt-2 text-sm text-slate-400">
+                    Pengelolaan Surat Masuk dan Surat Keluar
+                </p>
             </div>
-        @endif
 
-        @if ($errors->any())
-            <div class="message error">
-                {{ $errors->first() }}
+            <div class="relative z-10 max-w-lg">
+                <p class="mb-4 text-sm font-semibold uppercase tracking-widest text-blue-400">
+                    Digital Document Management
+                </p>
+
+                <h2 class="text-4xl font-bold leading-tight">
+                    Kelola Surat Lebih Mudah, Cepat, dan Terstruktur.
+                </h2>
+
+                <p class="mt-5 leading-relaxed text-slate-400">
+                    Sistem informasi untuk membantu pencatatan,
+                    pengelolaan, dan pemantauan surat masuk
+                    maupun surat keluar secara terorganisir.
+                </p>
             </div>
-        @endif
 
-        <form action="{{ url('/login') }}" method="POST">
-            @csrf
+            <div class="relative z-10 border-t border-slate-700 pt-5 text-xs text-slate-500">
+                &copy; {{ date('Y') }} Sistem Informasi Surat
+            </div>
 
-            <label for="email">Email</label>
-            <input
-                type="email"
-                id="email"
-                name="email"
-                value="{{ old('email') }}"
-                placeholder="Masukkan email"
-                required
-            >
+        </div>
 
-            <label for="password">Password</label>
-            <input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Masukkan password"
-                required
-            >
+        {{-- PANEL FORM LOGIN --}}
+        <div class="flex w-full items-center justify-center px-5 py-10 lg:w-1/2 lg:px-12">
 
-            <button type="submit">Login</button>
-        </form>
+            <div class="w-full max-w-md">
+
+                {{-- IDENTITAS MOBILE --}}
+                <div class="mb-8 text-center lg:hidden">
+                    <div class="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-700 text-2xl font-bold text-white">
+                        S
+                    </div>
+
+                    <h1 class="text-xl font-bold text-slate-800">
+                        Sistem Informasi Surat
+                    </h1>
+                </div>
+
+                <div class="rounded-2xl border border-slate-200 bg-white p-7 shadow-xl shadow-slate-200/60 sm:p-9">
+
+                    <div class="mb-8">
+                        <p class="mb-2 text-sm font-semibold uppercase tracking-wider text-blue-600">
+                            Selamat Datang
+                        </p>
+
+                        <h2 class="text-3xl font-bold text-slate-800">
+                            Login Akun
+                        </h2>
+
+                        <p class="mt-2 text-sm text-slate-500">
+                            Silakan masukkan email dan password Anda.
+                        </p>
+                    </div>
+
+                    {{-- NOTIFIKASI BERHASIL --}}
+                    @if (session('success'))
+                        <div class="mb-5 rounded-xl border border-green-200 bg-green-50 p-4 text-sm text-green-700">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    {{-- NOTIFIKASI ERROR --}}
+                    @if ($errors->any())
+                        <div class="mb-5 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+                            {{ $errors->first() }}
+                        </div>
+                    @endif
+
+                    {{-- FORM LOGIN --}}
+                    <form action="{{ url('/login') }}" method="POST">
+
+                        @csrf
+
+                        <div class="mb-5">
+                            <label for="email" class="mb-2 block text-sm font-semibold text-slate-700">
+                                Email
+                            </label>
+
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                value="{{ old('email') }}"
+                                placeholder="Masukkan email Anda"
+                                required
+                                autocomplete="email"
+                                class="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-100"
+                            >
+                        </div>
+
+                        <div class="mb-7">
+                            <label for="password" class="mb-2 block text-sm font-semibold text-slate-700">
+                                Password
+                            </label>
+
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Masukkan password Anda"
+                                required
+                                autocomplete="current-password"
+                                class="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-100"
+                            >
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="w-full rounded-xl bg-blue-700 px-5 py-3.5 text-sm font-bold text-white shadow-lg shadow-blue-700/20 transition hover:bg-blue-800 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-blue-200"
+                        >
+                            Masuk ke Sistem
+                        </button>
+
+                    </form>
+
+                </div>
+
+                <p class="mt-6 text-center text-xs text-slate-400">
+                    Sistem Informasi Surat &bull; Aplikasi Pengelolaan Dokumen
+                </p>
+
+            </div>
+
+        </div>
+
     </div>
 
 </body>

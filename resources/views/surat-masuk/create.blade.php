@@ -3,85 +3,144 @@
 @section('title', 'Tambah Surat Masuk')
 
 @section('content')
-    <h1>Tambah Surat Masuk</h1>
+<div class="mx-auto max-w-3xl px-6 py-10">
 
-    <form action="{{ route('surat-masuk.store') }}" method="POST">
-        @csrf
+    {{-- HEADER HALAMAN --}}
+    <div class="mb-8">
+        <h1 class="text-2xl font-bold text-slate-800">
+            Tambah Surat Masuk
+        </h1>
 
-        <div>
-            <label for="nomor_surat">Nomor Surat</label>
-            <input
-                type="text"
-                id="nomor_surat"
-                name="nomor_surat"
-                value="{{ old('nomor_surat') }}"
-            >
-            @error('nomor_surat')
-                <p style="color: red;">{{ $message }}</p>
-            @enderror
-        </div>
+        <p class="mt-2 text-sm text-slate-500">
+            Silakan lengkapi formulir untuk menambahkan data surat masuk.
+        </p>
+    </div>
 
-        <br>
+    {{-- FORM CARD --}}
+    <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
 
-        <div>
-            <label for="tanggal">Tanggal Surat</label>
-            <input
-                type="date"
-                id="tanggal"
-                name="tanggal"
-                value="{{ old('tanggal') }}"
-            >
-            @error('tanggal')
-                <p style="color: red;">{{ $message }}</p>
-            @enderror
-        </div>
+        <form action="{{ route('surat-masuk.store') }}" method="POST">
+            @csrf
 
-        <br>
+            {{-- NOMOR SURAT --}}
+            <div class="mb-6">
+                <label for="nomor_surat" class="mb-2 block text-sm font-semibold text-slate-700">
+                    Nomor Surat
+                </label>
 
-        <div>
-            <label for="pengirim">Pengirim</label>
-            <input
-                type="text"
-                id="pengirim"
-                name="pengirim"
-                value="{{ old('pengirim') }}"
-            >
-            @error('pengirim')
-                <p style="color: red;">{{ $message }}</p>
-            @enderror
-        </div>
+                <input
+                    type="text"
+                    id="nomor_surat"
+                    name="nomor_surat"
+                    value="{{ old('nomor_surat') }}"
+                    placeholder="Masukkan nomor surat"
+                    class="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-100"
+                >
 
-        <br>
+                @error('nomor_surat')
+                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
 
-        <div>
-            <label for="perihal">Perihal</label>
-            <input
-                type="text"
-                id="perihal"
-                name="perihal"
-                value="{{ old('perihal') }}"
-            >
-            @error('perihal')
-                <p style="color: red;">{{ $message }}</p>
-            @enderror
-        </div>
+            {{-- TANGGAL SURAT --}}
+            <div class="mb-6">
+                <label for="tanggal" class="mb-2 block text-sm font-semibold text-slate-700">
+                    Tanggal Surat
+                </label>
 
-        <br>
+                <input
+                    type="date"
+                    id="tanggal"
+                    name="tanggal"
+                    value="{{ old('tanggal') }}"
+                    class="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-100"
+                >
 
-        <div>
-            <label for="keterangan">Keterangan</label>
-            <textarea
-                id="keterangan"
-                name="keterangan"
-            >{{ old('keterangan') }}</textarea>
-            @error('keterangan')
-                <p style="color: red;">{{ $message }}</p>
-            @enderror
-        </div>
+                @error('tanggal')
+                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
 
-        <br>
+            {{-- PENGIRIM --}}
+            <div class="mb-6">
+                <label for="pengirim" class="mb-2 block text-sm font-semibold text-slate-700">
+                    Pengirim
+                </label>
 
-        <button type="submit">Simpan</button>
-        <a href="{{ route('surat-masuk.index') }}">Kembali</a>
-    </form>
+                <input
+                    type="text"
+                    id="pengirim"
+                    name="pengirim"
+                    value="{{ old('pengirim') }}"
+                    placeholder="Masukkan nama pengirim"
+                    class="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-100"
+                >
+
+                @error('pengirim')
+                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+
+            {{-- PERIHAL --}}
+            <div class="mb-6">
+                <label for="perihal" class="mb-2 block text-sm font-semibold text-slate-700">
+                    Perihal
+                </label>
+
+                <input
+                    type="text"
+                    id="perihal"
+                    name="perihal"
+                    value="{{ old('perihal') }}"
+                    placeholder="Masukkan perihal surat"
+                    class="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-100"
+                >
+
+                @error('perihal')
+                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+
+            {{-- KETERANGAN --}}
+            <div class="mb-8">
+                <label for="keterangan" class="mb-2 block text-sm font-semibold text-slate-700">
+                    Keterangan
+                </label>
+
+                <textarea
+                    id="keterangan"
+                    name="keterangan"
+                    rows="4"
+                    placeholder="Masukkan keterangan tambahan (opsional)"
+                    class="w-full resize-y rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-100"
+                >{{ old('keterangan') }}</textarea>
+
+                @error('keterangan')
+                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+
+            {{-- TOMBOL --}}
+            <div class="flex flex-wrap items-center justify-end gap-3 border-t border-slate-100 pt-6">
+
+                <a
+                    href="{{ route('surat-masuk.index') }}"
+                    class="rounded-xl border border-slate-300 px-5 py-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100"
+                >
+                    Kembali
+                </a>
+
+                <button
+                    type="submit"
+                    class="rounded-xl bg-blue-700 px-6 py-3 text-sm font-semibold text-white shadow-md shadow-blue-700/20 transition hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-200"
+                >
+                    Simpan Surat
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
 @endsection
