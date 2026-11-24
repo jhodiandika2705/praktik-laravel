@@ -19,7 +19,7 @@
     {{-- FORM CARD --}}
     <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
 
-        <form action="{{ route('surat-masuk.store') }}" method="POST">
+        <form action="{{ route('surat-masuk.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             {{-- NOMOR SURAT --}}
@@ -97,6 +97,57 @@
                 >
 
                 @error('perihal')
+                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+
+            {{-- KATEGORI SURAT --}}
+            <div class="mb-6">
+                <label for="category_id" class="mb-2 block text-sm font-semibold text-slate-700">
+                    Kategori Surat
+                </label>
+
+                <select
+                    id="category_id"
+                    name="category_id"
+                    class="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-100"
+                >
+                    <option value="">Pilih kategori surat</option>
+
+                    @foreach ($categories as $category)
+                        <option
+                            value="{{ $category->id }}"
+                            {{ old('category_id') == $category->id ? 'selected' : '' }}
+                        >
+                            {{ $category->nama }}
+                        </option>
+                    @endforeach
+                </select>
+
+                @error('category_id')
+                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+
+            {{-- LAMPIRAN --}}
+            <div class="mb-6">
+                <label for="lampiran" class="mb-2 block text-sm font-semibold text-slate-700">
+                    Lampiran Surat
+                </label>
+
+                <input
+                    type="file"
+                    id="lampiran"
+                    name="lampiran"
+                    accept=".pdf,.jpg,.jpeg,.png"
+                    class="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-800 outline-none transition file:mr-4 file:rounded-lg file:border-0 file:bg-blue-100 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-blue-700 hover:file:bg-blue-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+                >
+
+                <p class="mt-2 text-xs text-slate-500">
+                    Format: PDF, JPG, JPEG, PNG. Maksimal ukuran file 2 MB.
+                </p>
+
+                @error('lampiran')
                     <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                 @enderror
             </div>

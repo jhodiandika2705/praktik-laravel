@@ -51,6 +51,79 @@
             </div>
         @endif
 
+        {{-- FILTER DAN PENCARIAN --}}
+        <div class="mb-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+
+            <form action="{{ route('surat-masuk.index') }}" method="GET">
+
+                <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+
+                    {{-- PENCARIAN --}}
+                    <div class="md:col-span-2">
+                        <label for="search" class="mb-2 block text-sm font-semibold text-slate-700">
+                            Cari Surat
+                        </label>
+
+                        <input
+                            type="text"
+                            id="search"
+                            name="search"
+                            value="{{ request('search') }}"
+                            placeholder="Cari nomor surat, pengirim, atau perihal..."
+                            class="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-100"
+                        >
+                    </div>
+
+                    {{-- FILTER KATEGORI --}}
+                    <div>
+                        <label for="category_id" class="mb-2 block text-sm font-semibold text-slate-700">
+                            Filter Kategori
+                        </label>
+
+                        <select
+                            id="category_id"
+                            name="category_id"
+                            class="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-100"
+                        >
+                            <option value="">Semua Kategori</option>
+
+                            @foreach ($categories as $category)
+                                <option
+                                    value="{{ $category->id }}"
+                                    {{ request('category_id') == $category->id ? 'selected' : '' }}
+                                >
+                                    {{ $category->nama }}
+                                </option>
+                            @endforeach
+
+                        </select>
+                    </div>
+
+                </div>
+
+                {{-- TOMBOL FILTER --}}
+                <div class="mt-4 flex flex-wrap gap-3">
+
+                    <button
+                        type="submit"
+                        class="rounded-xl bg-blue-700 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-800"
+                    >
+                        Cari / Filter
+                    </button>
+
+                    <a
+                        href="{{ route('surat-masuk.index') }}"
+                        class="rounded-xl border border-slate-300 px-5 py-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100"
+                    >
+                        Reset
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
         {{-- TABEL DATA SURAT --}}
         <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
 
@@ -70,7 +143,7 @@
             {{-- AREA TABEL --}}
             <div class="overflow-x-auto">
 
-                <table class="w-full min-w-[850px] text-left text-sm">
+                <table class="w-full min-w-[1100px] text-left text-sm">
 
                     <thead class="bg-slate-900 text-white">
 
@@ -80,6 +153,8 @@
                             <th class="px-6 py-4 font-semibold">Tanggal Surat</th>
                             <th class="px-6 py-4 font-semibold">Pengirim</th>
                             <th class="px-6 py-4 font-semibold">Perihal</th>
+                            <th class="px-6 py-4 font-semibold">Kategori</th>
+                            <th class="px-6 py-4 font-semibold">Lampiran</th>
                             <th class="px-6 py-4 text-center font-semibold">Aksi</th>
                         </tr>
 
@@ -92,7 +167,7 @@
                             <tr class="transition hover:bg-blue-50/50">
 
                                 <td class="px-6 py-4 text-slate-500">
-                                    {{ $loop->iteration }}
+                                    {{ $suratmasuk->firstItem() + $loop->index }}
                                 </td>
 
                                 <td class="px-6 py-4 font-semibold text-slate-800">
@@ -109,6 +184,37 @@
 
                                 <td class="px-6 py-4 text-slate-600">
                                     {{ $surat->perihal }}
+                                </td>
+
+                                {{-- KATEGORI --}}
+                                <td class="px-6 py-4">
+                                    @if ($surat->category)
+                                        <span class="rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700">
+                                            {{ $surat->category->nama }}
+                                        </span>
+                                    @else
+                                        <span class="text-xs text-slate-400">
+                                            Belum dikategorikan
+                                        </span>
+                                    @endif
+                                </td>
+
+                                {{-- LAMPIRAN --}}
+                                <td class="px-6 py-4">
+                                    @if ($surat->lampiran)
+                                        <a
+                                            href="{{ asset('storage/' . $surat->lampiran) }}"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            class="font-semibold text-blue-600 transition hover:text-blue-800"
+                                        >
+                                            Lihat File
+                                        </a>
+                                    @else
+                                        <span class="text-xs text-slate-400">
+                                            Tidak ada
+                                        </span>
+                                    @endif
                                 </td>
 
                                 {{-- AKSI --}}
@@ -155,16 +261,16 @@
                         @empty
 
                             <tr>
-                                <td colspan="6" class="px-6 py-12 text-center">
+                                <td colspan="8" class="px-6 py-12 text-center">
 
                                     <div class="text-4xl">📂</div>
 
                                     <p class="mt-3 font-semibold text-slate-700">
-                                        Belum Ada Data Surat Masuk
+                                        Data Surat Tidak Ditemukan
                                     </p>
 
                                     <p class="mt-1 text-sm text-slate-500">
-                                        Data surat masuk yang tersimpan akan ditampilkan di sini.
+                                        Coba ubah kata kunci pencarian atau filter kategori.
                                     </p>
 
                                 </td>
@@ -178,8 +284,25 @@
 
             </div>
 
+            {{-- PAGINATION --}}
+            <div class="border-t border-slate-200 bg-slate-50 px-6 py-5">
+
+                <div class="mb-4 text-xs text-slate-500">
+                    Menampilkan
+                    {{ $suratmasuk->firstItem() ?? 0 }}
+                    sampai
+                    {{ $suratmasuk->lastItem() ?? 0 }}
+                    dari
+                    {{ $suratmasuk->total() }}
+                    data surat.
+                </div>
+
+                {{ $suratmasuk->links() }}
+
+            </div>
+
             {{-- FOOTER TABEL --}}
-            <div class="border-t border-slate-200 bg-slate-50 px-6 py-4">
+            <div class="border-t border-slate-200 bg-white px-6 py-4">
 
                 <p class="text-xs text-slate-500">
                     Sistem Informasi Surat — Data Surat Masuk
